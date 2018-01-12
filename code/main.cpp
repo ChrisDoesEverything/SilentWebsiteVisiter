@@ -3,11 +3,9 @@
 
 #include <Windows.h>
 #include <string>
-#include <cstdio>
+#include <thread>
 
 using namespace std;
-
-//CREATE_NO_WINDOW
 
 // Return 0 is success
 int SilentWebsiteVisitor(string TargetWebsite)
@@ -18,8 +16,6 @@ int SilentWebsiteVisitor(string TargetWebsite)
 	PROCESS_INFORMATION pi = {};
 	if (CreateProcessA(NULL, (LPSTR)const_cast<char *>(TargetWebsite.c_str()) , NULL, NULL, FALSE, CREATE_NO_WINDOW, NULL, NULL, &si, &pi) == 0)
 		return 1;
-
-	//WaitForSingleObject(pi.hProcess, INFINITE); // For some reason this result in an infinite loop
 
 	Sleep(5000);
 
@@ -35,10 +31,16 @@ int SilentWebsiteVisitor(string TargetWebsite)
 	return 0;
 }
 
+void ThreadCalling(string TargetWebsite)
+{
+	SilentWebsiteVisitor(TargetWebsite);
+}
+
 int main()
 {
-	string asdf = "http://example.com";
-	printf("%i", SilentWebsiteVisitor(asdf));
+	thread MyThread(SilentWebsiteVisitor, "http://example.com/");
+
+	MyThread.detach();
 
     return 0;
 }
