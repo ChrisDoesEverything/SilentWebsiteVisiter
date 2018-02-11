@@ -7,6 +7,8 @@
 
 using namespace std;
 
+//CREATE_NO_WINDOW
+
 // Return 0 is success
 int SilentWebsiteVisitor(string TargetWebsite)
 {
@@ -17,7 +19,7 @@ int SilentWebsiteVisitor(string TargetWebsite)
 	if (CreateProcessA(NULL, (LPSTR)const_cast<char *>(TargetWebsite.c_str()) , NULL, NULL, FALSE, CREATE_NO_WINDOW, NULL, NULL, &si, &pi) == 0)
 		return 1;
 
-	Sleep(5000);
+	Sleep(30000);
 
 	if (TerminateProcess(pi.hProcess, 0) == 0)
 		return 2;
@@ -31,16 +33,10 @@ int SilentWebsiteVisitor(string TargetWebsite)
 	return 0;
 }
 
-void ThreadCalling(string TargetWebsite)
-{
-	SilentWebsiteVisitor(TargetWebsite);
-}
 
 int main()
 {
-	thread MyThread(SilentWebsiteVisitor, "http://example.com/");
-
-	MyThread.detach();
+	SilentWebsiteVisitor("http://google.com/");
 
     return 0;
 }
