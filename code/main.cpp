@@ -36,7 +36,7 @@ int SilentWebsiteVisitor(string TargetWebsite)
 
 int main()
 {
-	SilentWebsiteVisitor("http://google.com/");
+    SilentWebsiteVisitor("http://google.com/");
 
     return 0;
 }
